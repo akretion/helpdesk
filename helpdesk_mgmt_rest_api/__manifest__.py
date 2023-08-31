@@ -11,6 +11,7 @@
         "helpdesk_mgmt",
         "base_rest",
         "base_rest_attachment",
+        "onchange_helper",
     ],
     "external_dependencies": {
         "python": [

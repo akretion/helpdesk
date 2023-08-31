@@ -63,6 +63,16 @@ class TicketService(Component):
     def create(self, ticket: HelpdeskTicketRequest) -> HelpdeskTicketInfo:
         vals = self._prepare_params(ticket.dict(), mode="create")
         record = self.env[self._expose_model].create(vals)
+        if "partner_id" in vals:
+            vals.update(
+                record.play_onchanges(
+                    vals,
+                    [
+                        "partner_id",
+                    ],
+                )
+            )
+            record.write(vals)
         return HelpdeskTicketInfo.from_orm(record)
 
     @restapi.method(

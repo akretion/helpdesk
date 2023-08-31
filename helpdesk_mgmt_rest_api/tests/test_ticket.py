@@ -106,3 +106,15 @@ class HelpdeskTicketAuthenticatedCase(HelpdeskTicketCommonCase):
         message_data = {"body": "Also here is a picture"}
         self.service.dispatch("message_post", ticket.id, params=message_data)
         self.assertEqual(len(ticket.message_ids), 2)  # There is a technical message
+
+    def test_partner_infos(self):
+        data = self.generate_ticket_data()
+        res = self.service.dispatch("create", params=data)
+        ticket = self.env["helpdesk.ticket"].search([("id", "=", res["id"])])
+        self.assert_ticket_ok(ticket)
+        authenticated_partner_id = self.env["res.partner"].browse(
+            self.services_env.collection.env.context["authenticated_partner_id"]
+        )
+        self.assertEqual(ticket.partner_id, authenticated_partner_id)
+        self.assertEqual(ticket.partner_email, authenticated_partner_id.email)
+        self.assertEqual(ticket.partner_name, authenticated_partner_id.name)
