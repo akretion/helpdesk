@@ -27,7 +27,7 @@ class TicketService(Component):
         "mail.thread.abstract.service",
         "rest.attachment.service.mixin",
     ]
-    _usage = "helpdesk_ticket"
+    _usage = "helpdesk_tickets"
     _expose_model = "helpdesk.ticket"
     _description = __doc__
 
