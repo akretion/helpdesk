@@ -22,7 +22,9 @@ class HelpdeskTicket(models.Model):
         for picking in (
             self.sale_line_ids.mapped("move_ids")
             .mapped("picking_id")
-            .filtered(lambda m: m.picking_type_id.code == "outgoing")
+            .filtered(
+                lambda p: p.picking_type_id.code == "outgoing" and p.state != "cancel"
+            )
         ):
             return_wizard = (
                 self.env["stock.return.picking"]
@@ -37,7 +39,7 @@ class HelpdeskTicket(models.Model):
             )
             # remove lines we are not returning (added by onchange_picking_id)
             return_wizard.product_return_moves.filtered(
-                lambda l: l.move_id not in moves_to_return
+                lambda m: m.move_id not in moves_to_return
             ).unlink()
             for return_move in return_wizard.product_return_moves:
                 for sale_line in self.sale_line_ids:
@@ -75,7 +77,7 @@ class HelpdeskTicket(models.Model):
                 action["views"] = form_view
             action["res_id"] = pickings.id
         # Prepare the context.
-        picking_id = pickings.filtered(lambda l: l.picking_type_id.code == "outgoing")
+        picking_id = pickings.filtered(lambda p: p.picking_type_id.code == "outgoing")
         if picking_id:
             picking_id = picking_id[0]
         else:
