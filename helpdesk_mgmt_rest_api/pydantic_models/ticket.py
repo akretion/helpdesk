@@ -19,6 +19,7 @@ class HelpdeskPartnerRequest(BaseModel):
 class HelpdeskTicketInfo(AttachableInfo, MailThreadInfo):
     id: int
     name: str
+    number: str
     description: str
     create_date: datetime
     last_stage_update: datetime = None
