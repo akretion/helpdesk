@@ -1,7 +1,7 @@
 {
     "name": "Helpdesk Sale",
     "summary": "Manage sales info on an helpdesk ticket",
-    "version": "14.0.1.0.0",
+    "version": "14.0.2.0.0",
     "category": "Helpdesk",
     "website": "https://github.com/OCA/helpdesk",
     "author": "Akretion, Odoo Community Association (OCA)",
